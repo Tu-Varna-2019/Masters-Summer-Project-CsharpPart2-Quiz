@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace finance_tracker_android;
+namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

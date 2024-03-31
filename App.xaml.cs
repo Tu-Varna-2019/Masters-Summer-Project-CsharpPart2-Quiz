@@ -1,4 +1,4 @@
-﻿namespace finance_tracker_android;
+﻿namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 public partial class App : Application
 {

@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace finance_tracker_android;
+namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 class Program : MauiApplication
 {

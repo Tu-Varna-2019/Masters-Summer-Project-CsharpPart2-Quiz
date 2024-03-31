@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="finance_tracker_android.WinUI.App"
+    x:Class="Masters_Summer_Project_CsharpPart2_Quiz.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:finance_tracker_android.WinUI">
+    xmlns:local="using:Masters_Summer_Project_CsharpPart2_Quiz.WinUI">
 
 </maui:MauiWinUIApplication>

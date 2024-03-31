@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace finance_tracker_android;
+namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 [Application]
 public class MainApplication : MauiApplication

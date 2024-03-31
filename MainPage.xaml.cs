@@ -1,4 +1,4 @@
-﻿namespace finance_tracker_android;
+﻿namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 public partial class MainPage : ContentPage
 {
@@ -16,7 +16,7 @@ public partial class MainPage : ContentPage
 		if (count == 1)
 			CounterBtn.Text = $"Clicked {count} time";
 		else
-			CounterBtn.Text = $"Clicked {count} times. Nice232323";
+			CounterBtn.Text = $"It works!";
 
 		SemanticScreenReader.Announce(CounterBtn.Text);
 	}

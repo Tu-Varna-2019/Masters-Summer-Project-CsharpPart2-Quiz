@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "finance-tracker-android", "finance-tracker-android.csproj", "{59A3A147-53D2-469F-924A-EBF137C7C4F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Masters-Summer-Project-CsharpPart2-Quiz", "Masters-Summer-Project-CsharpPart2-Quiz.csproj", "{59A3A147-53D2-469F-924A-EBF137C7C4F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

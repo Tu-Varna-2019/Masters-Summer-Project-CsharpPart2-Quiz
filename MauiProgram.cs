@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace finance_tracker_android;
+namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 public static class MauiProgram
 {

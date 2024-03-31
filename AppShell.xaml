@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Shell
-    x:Class="finance_tracker_android.AppShell"
+    x:Class="Masters_Summer_Project_CsharpPart2_Quiz.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:finance_tracker_android"
+    xmlns:local="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz"
     Shell.FlyoutBehavior="Disabled"
-    Title="finance_tracker_android">
+    Title="Masters_Summer_Project_CsharpPart2_Quiz">
 
     <ShellContent
         Title="Home"
