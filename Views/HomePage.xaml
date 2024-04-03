@@ -2,9 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz.ViewModels"
-    x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.LoginPage"
-    NavigatedTo="NavigatedToRegisterPage"
-    Title="Login"
+    x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.HomePage"
+    Title="Home"
     Shell.NavBarIsVisible="False"
 >
 
@@ -15,7 +14,7 @@
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
 
-        <Label Text="Login" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
+        <Label Text="Home" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
 
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
             <Image Source="quiz.png"
@@ -28,10 +27,6 @@
                 HorizontalOptions="Center" />
         </HorizontalStackLayout>
 
-        <Label Text="{Binding Message}" HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Email" HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Password" IsPassword="True" HorizontalOptions="FillAndExpand" />
-        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
     </VerticalStackLayout>
 
 </ContentPage>

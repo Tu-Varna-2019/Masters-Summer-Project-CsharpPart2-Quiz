@@ -1,6 +1,6 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.Models;
 
-internal class User
+public class User
 {
     public string Username { get; set; }
     public string Email { get; set; }

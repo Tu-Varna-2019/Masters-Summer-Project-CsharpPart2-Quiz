@@ -7,17 +7,6 @@ internal class LoginViewModel : IQueryAttributable
 {
     private User _user;
 
-
-    public string Username
-    {
-        get => _user.Username;
-        set
-        {
-            _user.Username = value;
-            // OnPropertyChanged();
-        }
-    }
-
     public string Email
     {
         get => _user.Email;
@@ -38,21 +27,23 @@ internal class LoginViewModel : IQueryAttributable
         }
     }
 
+
     public ICommand SaveCommand { get; set; }
-    public ICommand DeleteCommand { get; set; }
+    public ICommand RegisterCommand { get; set; }
 
     public LoginViewModel()
     {
         _user = new User();
-        // SaveCommand = new AsyncelayCommand(Save);
-        // DeleteCommand = new AsyncelayCommand(Delete);
+
+        RegisterCommand = new Command(async () =>
+        {
+            await Shell.Current.GoToAsync($"//{nameof(Views.RegisterPage)}");
+        });
     }
 
     public LoginViewModel(User user)
     {
         _user = user;
-        // SaveCommand = new AsyncelayCommand(Save);
-        // DeleteCommand = new AsyncelayCommand(Delete);
     }
 
     private async Task Save()
