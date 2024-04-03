@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz.ViewModels"
+    x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.LoginPage">
+
+    <!-- <ContentPage.BindingContext>
+        <viewModels:LoginViewModel />
+    </ContentPage.BindingContext> -->
+
+    <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
+        HorizontalOptions="FillAndExpand">
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand">
+            <Image Source="dotnet_bot.png"
+                SemanticProperties.Description="The dot net bot waving hello!"
+                HeightRequest="64"
+                HorizontalOptions="Start" /> <!-- Adjust based on layout needs -->
+            <Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End"
+                HorizontalOptions="Start" />
+            <Label FontSize="22" Text="{Binding Version}" VerticalOptions="End"
+                HorizontalOptions="Start" />
+        </HorizontalStackLayout>
+
+        <Label Text="{Binding Message}" HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="Email" HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="Password" IsPassword="True" HorizontalOptions="FillAndExpand" />
+        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
+        <Button Text="Register" Command="{Binding RegisterCommand}"
+            HorizontalOptions="FillAndExpand" />
+    </VerticalStackLayout>
+
+</ContentPage>
