@@ -2,21 +2,28 @@ namespace Masters_Summer_Project_CsharpPart2_Quiz.Models;
 
 public class User
 {
-    public string Username { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
+    private int _id;
+    private string _username;
+    private string _email;
+    private string _password;
+
+    public int Id { get => _id; set => _id = value; }
+    public string Username { get => _username; set => _username = value; }
+    public string Email { get => _email; set => _email = value; }
+    public string Password { get => _password; set => _password = value; }
 
     public User()
     {
-        Username = "Username";
-        Email = "Email";
-        Password = "Password";
+        _username = "";
+        _email = "";
+        _password = "";
     }
 
-    public User(string username, string email, string password)
+    public User(string id, string username, string email, string password)
     {
-        Username = username;
-        Email = email;
-        Password = password;
+        _id = int.Parse(id);
+        _username = username;
+        _email = email;
+        _password = password;
     }
 }

@@ -1,26 +1,15 @@
-﻿namespace Masters_Summer_Project_CsharpPart2_Quiz;
+﻿using Masters_Summer_Project_CsharpPart2_Quiz.Views;
+namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 public partial class App : Application
 {
-	public App()
+	public IServiceProvider ServiceProvider { get; }
+	public App(IServiceProvider serviceProvider)
 	{
 		InitializeComponent();
+		ServiceProvider = serviceProvider;
+		MainPage = new NavigationPage(new LoginPage());
 
-		MainPage = new AppShell();
 	}
 
-	protected override void OnStart()
-	{
-		base.OnStart();
-	}
-
-	protected override void OnResume()
-	{
-		base.OnResume();
-	}
-
-	protected override void OnSleep()
-	{
-		base.OnSleep();
-	}
 }

@@ -1,29 +1,42 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.Views;
+
+using CommunityToolkit.Mvvm.Messaging;
 using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
 public partial class RegisterPage : ContentPage
 {
-	public RegisterPage()
+	public RegisterPage(RegisterViewModel registerViewModel)
 	{
 		InitializeComponent();
-		BindingContext = new RegisterViewModel();
+		BindingContext = registerViewModel;
 
-		MessagingCenter.Subscribe<RegisterViewModel, string>(this, "RegisterSuccess", async (sender, arg) =>
+		WeakReferenceMessenger.Default.Register<RegisterPage, string>(this, "RegisterSuccess", (recipient, message) =>
 		{
-			await DisplayAlert("Success", arg, "OK");
+			MainThread.BeginInvokeOnMainThread(async () =>
+			{
+				await DisplayAlert("Success", message.ToString(), "OK");
+				await Navigation.PopAsync();
+			});
 		});
 
-		MessagingCenter.Subscribe<RegisterViewModel, string>(this, "RegisterError", async (sender, arg) =>
-		{
-			await DisplayAlert("Error", arg, "OK");
-		});
+		WeakReferenceMessenger.Default.Register<RegisterPage, string>(this, "RegisterError", (recipient, message) =>
+{
+	MainThread.BeginInvokeOnMainThread(async () =>
+	{
+		await DisplayAlert("Error", message.ToString(), "OK");
+		await Navigation.PopAsync();
+	});
+});
+
 	}
 
-	// Unsubscribe from messages when the page is disappearing to avoid memory leaks
 	protected override void OnDisappearing()
 	{
 		base.OnDisappearing();
-		MessagingCenter.Unsubscribe<RegisterViewModel, string>(this, "RegisterSuccess");
-		MessagingCenter.Unsubscribe<RegisterViewModel, string>(this, "RegisterError");
+		if (BindingContext is RegisterViewModel viewModel)
+		{
+			viewModel.Cleanup();
+		}
 	}
+
 }

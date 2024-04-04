@@ -6,9 +6,9 @@
     Shell.NavBarIsVisible="False"
 >
 
-    <ContentPage.BindingContext>
+    <!-- <ContentPage.BindingContext>
         <viewModels:RegisterViewModel />
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext> -->
 
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">

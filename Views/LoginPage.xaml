@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:viewModels="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz.ViewModels"
     x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.LoginPage"
-    NavigatedTo="NavigatedToRegisterPage"
     Title="Login"
     Shell.NavBarIsVisible="False"
 >
@@ -32,6 +31,8 @@
         <Entry Placeholder="Email" HorizontalOptions="FillAndExpand" />
         <Entry Placeholder="Password" IsPassword="True" HorizontalOptions="FillAndExpand" />
         <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
+        <Button Text="Register" Clicked="OnGoToRegisterClicked" HorizontalOptions="FillAndExpand" />
+
     </VerticalStackLayout>
 
 </ContentPage>

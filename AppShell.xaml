@@ -6,15 +6,12 @@
     xmlns:local="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz"
     xmlns:views="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz.Views"
     Shell.FlyoutBehavior="Disabled"
+    Shell.TabBarIsVisible="False"
     Title="Masters_Summer_Project_CsharpPart2_Quiz">
 
     <TabBar>
-        <!--<ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
 
-        <ShellContent
+        <!-- <ShellContent
             Title="Login"
             ContentTemplate="{DataTemplate views:LoginPage}"
             Route="LoginPage"
@@ -26,7 +23,7 @@
             ContentTemplate="{DataTemplate views:RegisterPage}"
             Route="RegisterPage"
             Icon="{OnPlatform 'icon_about.png', iOS='icon_about_ios.png', Android='icon_about.png'}"
-        />
+        /> -->
 
         <ShellContent
             Title="Home"

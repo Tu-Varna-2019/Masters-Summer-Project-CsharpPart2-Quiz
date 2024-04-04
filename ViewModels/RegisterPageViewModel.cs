@@ -1,18 +1,18 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
+using CommunityToolkit.Mvvm.Messaging;
 using Masters_Summer_Project_CsharpPart2_Quiz.Models;
-using System.Collections.Generic;
+using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 
 
-internal class RegisterViewModel : INotifyPropertyChanged, IQueryAttributable
-
+public class RegisterViewModel : INotifyPropertyChanged
 {
-
-	private User _user;
+	public ICommand RegisterCommand { get; private set; }
+	private readonly UserRepository _userRepository;
+	private User _user = new User();
 	public event PropertyChangedEventHandler? PropertyChanged;
 
 	protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -50,40 +50,37 @@ internal class RegisterViewModel : INotifyPropertyChanged, IQueryAttributable
 		}
 	}
 
-	public ICommand RegisterCommand { get; private set; }
-
 	public RegisterViewModel()
+	{ }
+	public RegisterViewModel(UserRepository userRepository)
 	{
-		_user = new User();
-		RegisterCommand = new Command(ExecuteRegisterCommand);
-	}
-
-	private async void ExecuteRegisterCommand()
-	{
-		var connectionString = "Host=geodb.cpm2u4caeypo.eu-west-1.rds.amazonaws.com;Database=quiz;Username=postgres;Password=<p2W7nw^%bTx3eQ~q*8LE<VWi+ZcXQVf49pUy@";
-
-		var dbService = new QuizDBService(connectionString);
-
 		try
 		{
-			await dbService.AddUserAsync(_user);
-			MessagingCenter.Send(this, "RegisterSuccess", "User added successfully");
+			_userRepository = userRepository;
+			RegisterCommand = new Command(async () => await ExecuteRegisterCommand());
 		}
 		catch (Exception ex)
 		{
-			MessagingCenter.Send(this, "RegisterError", ex.Message);
+			WeakReferenceMessenger.Default.Send("RegisterError", ex.Message);
 		}
 	}
 
-
-
-	public RegisterViewModel(User user)
+	private async Task ExecuteRegisterCommand()
 	{
-		_user = user;
+		try
+		{
+			await _userRepository.CreateCommand(_user);
+
+			WeakReferenceMessenger.Default.Send("RegisterSuccess", "User added successfully");
+		}
+		catch (Exception ex)
+		{
+			WeakReferenceMessenger.Default.Send("RegisterError", ex.Message);
+		}
 	}
 
-	public void ApplyQueryAttributes(IDictionary<string, object> query)
+	public void Cleanup()
 	{
-		throw new NotImplementedException();
+		WeakReferenceMessenger.Default.UnregisterAll(this);
 	}
 }

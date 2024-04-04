@@ -1,0 +1,18 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "maui: Build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Masters-Summer-Project-CsharpPart2-Quiz.csproj",
+                "/t:Run",
+                "/p:_DeviceId=:v2:emulator-5554"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ],
+
+}
