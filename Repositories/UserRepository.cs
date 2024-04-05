@@ -12,7 +12,7 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public User GetByEmail(string email)
     {
-        return _context.Users.FirstOrDefault(u => u.Email == email) ?? throw new ArgumentException("User not found");
+        return _context.Users.FirstOrDefault(u => u.Email == email);
     }
 
     public bool ValidateUserCreds(string email, string password)

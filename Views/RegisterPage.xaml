@@ -31,6 +31,8 @@
             HorizontalOptions="FillAndExpand" />
         <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
 
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
+
     </VerticalStackLayout>
 
 </ContentPage>

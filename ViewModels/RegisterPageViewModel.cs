@@ -1,34 +1,29 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
-using CommunityToolkit.Mvvm.Messaging;
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
 using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using Masters_Summer_Project_CsharpPart2_Quiz.Services;
+
 using System.Windows.Input;
 
-
-public class RegisterViewModel : INotifyPropertyChanged
+public class RegisterViewModel : BaseViewModel
 {
-	public ICommand RegisterCommand { get; private set; }
-	private readonly UserRepository _userRepository;
-	private User _user = new User();
-	public event PropertyChangedEventHandler? PropertyChanged;
-
-	protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+	private bool _isLoading = false;
+	public bool IsLoading
 	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		get => _isLoading;
+		set { if (_isLoading != value) _isLoading = value; OnPropertyChanged(nameof(IsLoading)); }
 	}
+
+	public ICommand RegisterCommand { get; private set; }
+	private readonly UserService _userService;
+	private readonly User _user = new User();
 
 	public string Username
 	{
 		get => _user.Username;
-		set
-		{
-			_user.Username = value;
-			OnPropertyChanged();
-		}
+		set { _user.Username = value; OnPropertyChanged(nameof(RegisterCommand)); }
 	}
 
 	public string Email
@@ -37,7 +32,7 @@ public class RegisterViewModel : INotifyPropertyChanged
 		set
 		{
 			_user.Email = value;
-			OnPropertyChanged();
+			OnPropertyChanged(nameof(RegisterCommand));
 		}
 	}
 
@@ -47,43 +42,42 @@ public class RegisterViewModel : INotifyPropertyChanged
 		set
 		{
 			_user.Password = value;
-			OnPropertyChanged();
+			OnPropertyChanged(nameof(RegisterCommand));
 		}
 	}
 
 	public RegisterViewModel()
 	{
-		RegisterCommand = new Command(async () => await ExecuteRegisterCommand());
 	}
 	public RegisterViewModel(UserRepository userRepository)
 	{
-		try
-		{
-			_userRepository = userRepository;
-			RegisterCommand = new Command(async () => await ExecuteRegisterCommand());
-		}
-		catch (Exception ex)
-		{
-			AlertMessenger.SendMessage(ex.ToString(), false);
-		}
+		_userService = new UserService(userRepository);
+		RegisterCommand = new AutoRefreshCommand(ExecuteRegisterCommand, CanExecuteRegister, this);
 	}
+
 
 	private async Task ExecuteRegisterCommand()
 	{
+		IsLoading = true;
 		try
 		{
-			await _userRepository.CreateCommand(_user);
-
-			AlertMessenger.SendMessage("User added successfully", true);
+			await _userService.RegisterUser(_user);
+			AlertMessenger.SendMessage($"User {Username} registered successfully", true);
 		}
 		catch (Exception ex)
 		{
-			AlertMessenger.SendMessage(ex.ToString(), false);
+			AlertMessenger.SendMessage(ex.Message, false);
+		}
+		finally
+		{
+			IsLoading = false;
 		}
 	}
 
-	public void Cleanup()
+	private bool CanExecuteRegister()
 	{
-		WeakReferenceMessenger.Default.UnregisterAll(this);
+		return !IsLoading && !string.IsNullOrWhiteSpace(_user.Username) &&
+			   !string.IsNullOrWhiteSpace(_user.Email) &&
+			   !string.IsNullOrWhiteSpace(_user.Password);
 	}
 }

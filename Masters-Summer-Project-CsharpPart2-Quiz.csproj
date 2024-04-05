@@ -75,6 +75,7 @@
 
 		<!-- Env vars -->
 		<EmbeddedResource Include="Properties\appsettings.json" />
+		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 
 		<PackageReference Include="CommunityToolkit.Maui" Version="8.0.0" />
 		<PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
