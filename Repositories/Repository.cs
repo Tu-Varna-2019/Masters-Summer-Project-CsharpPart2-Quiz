@@ -46,7 +46,4 @@ public class Repository<T> : IRepository<T> where T : class
     {
         return await _context.Set<T>().ToListAsync();
     }
-
-
-
 }

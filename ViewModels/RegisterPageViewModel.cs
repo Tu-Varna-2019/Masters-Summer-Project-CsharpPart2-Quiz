@@ -1,6 +1,7 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
 using CommunityToolkit.Mvvm.Messaging;
+using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
 using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using System.ComponentModel;
@@ -63,7 +64,7 @@ public class RegisterViewModel : INotifyPropertyChanged
 		}
 		catch (Exception ex)
 		{
-			WeakReferenceMessenger.Default.Send("RegisterError", ex.Message);
+			AlertMessenger.SendMessage(ex.ToString(), false);
 		}
 	}
 
@@ -73,11 +74,11 @@ public class RegisterViewModel : INotifyPropertyChanged
 		{
 			await _userRepository.CreateCommand(_user);
 
-			WeakReferenceMessenger.Default.Send("User added successfully", "RegisterSuccess");
+			AlertMessenger.SendMessage("User added successfully", true);
 		}
 		catch (Exception ex)
 		{
-			WeakReferenceMessenger.Default.Send(ex.ToString(), "RegisterError");
+			AlertMessenger.SendMessage(ex.ToString(), false);
 		}
 	}
 

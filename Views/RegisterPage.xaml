@@ -5,11 +5,6 @@
     x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.RegisterPage"
     Shell.NavBarIsVisible="False"
 >
-    <!--
-    <ContentPage.BindingContext>
-        <viewModels:RegisterViewModel />
-    </ContentPage.BindingContext> -->
-
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
 
