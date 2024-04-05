@@ -51,7 +51,9 @@ public class RegisterViewModel : INotifyPropertyChanged
 	}
 
 	public RegisterViewModel()
-	{ }
+	{
+		RegisterCommand = new Command(async () => await ExecuteRegisterCommand());
+	}
 	public RegisterViewModel(UserRepository userRepository)
 	{
 		try
@@ -71,11 +73,11 @@ public class RegisterViewModel : INotifyPropertyChanged
 		{
 			await _userRepository.CreateCommand(_user);
 
-			WeakReferenceMessenger.Default.Send("RegisterSuccess", "User added successfully");
+			WeakReferenceMessenger.Default.Send("User added successfully", "RegisterSuccess");
 		}
 		catch (Exception ex)
 		{
-			WeakReferenceMessenger.Default.Send("RegisterError", ex.Message);
+			WeakReferenceMessenger.Default.Send(ex.ToString(), "RegisterError");
 		}
 	}
 

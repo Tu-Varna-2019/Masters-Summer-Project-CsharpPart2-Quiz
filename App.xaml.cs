@@ -12,4 +12,13 @@ public partial class App : Application
 
 	}
 
+	protected override async void OnStart()
+	{
+		base.OnStart();
+		if (MauiProgram.StartupException != null)
+		{
+			await MainPage.DisplayAlert("Startup Error", MauiProgram.StartupException.Message, "OK");
+		}
+	}
+
 }

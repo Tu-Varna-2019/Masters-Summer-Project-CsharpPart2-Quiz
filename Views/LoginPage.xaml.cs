@@ -15,7 +15,6 @@ public partial class LoginPage : ContentPage
             var registerViewModel = ((App)Application.Current).ServiceProvider.GetService<RegisterViewModel>();
 
             var registerPage = new RegisterPage(registerViewModel);
-            // Use the Navigation property directly, as the LoginPage is wrapped in a NavigationPage
             await Navigation.PushAsync(registerPage);
 
         }

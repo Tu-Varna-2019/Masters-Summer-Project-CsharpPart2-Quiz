@@ -10,42 +10,34 @@ public class QuizDBContext : DbContext
     public DbSet<Question> Questions { get; set; }
     public DbSet<Answer> Answers { get; set; }
 
-    private string _databaseHost;
-    private string _username;
-    private string _password;
-    private string _connectionString;
-    private const string databbaseName = "quiz";
-
-
-
-
     public QuizDBContext(DbContextOptions<QuizDBContext> options) : base(options)
     {
     }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        _databaseHost = Environment.GetEnvironmentVariable("POSTGRE_HOST") ?? throw new ArgumentException("Environment variable 'POSTGRE_HOST' is not set.");
+        base.OnModelCreating(modelBuilder);
 
-        _username = Environment.GetEnvironmentVariable("POSTGRE_USERNAME") ?? throw new ArgumentException("Environment variable 'POSTGRE_USERNAME' is not set.");
-        _password = Environment.GetEnvironmentVariable("POSTGRE_PASSWORD") ?? throw new ArgumentException("Environment variable 'POSTGRE_PASSWORD' is not set.");
+        modelBuilder.Entity<User>(entity =>
+                {
+                    entity.ToTable("User");
 
-        _connectionString = $"Host={_databaseHost};Username={_username};Password={_password};Database={databbaseName}";
+                    entity.HasKey(e => e.Id);
+                    entity.Property(e => e.Id).HasColumnName("id");
 
-        optionsBuilder.UseNpgsql(_connectionString);
-    }
+                    entity.Property(e => e.Username)
+                        .HasColumnName("username")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
+                    entity.Property(e => e.Email)
+                        .HasColumnName("email")
+                        .IsRequired()
+                        .HasMaxLength(100);
 
-    public async Task AddUserAsync(User user)
-    {
-        await using var conn = new NpgsqlConnection(_connectionString);
-        await conn.OpenAsync();
-
-        var cmd = new NpgsqlCommand("INSERT INTO \"user\" (username, email, password) VALUES (@username, @email, @password)", conn);
-        cmd.Parameters.AddWithValue("username", user.Username);
-        cmd.Parameters.AddWithValue("email", user.Email);
-        cmd.Parameters.AddWithValue("password", user.Password); // Consider hashing the password
-
-        await cmd.ExecuteNonQueryAsync();
+                    entity.Property(e => e.Password)
+                        .HasColumnName("password")
+                        .IsRequired()
+                        .HasMaxLength(255);
+                });
     }
 }

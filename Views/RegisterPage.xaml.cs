@@ -10,33 +10,40 @@ public partial class RegisterPage : ContentPage
 		InitializeComponent();
 		BindingContext = registerViewModel;
 
-		WeakReferenceMessenger.Default.Register<RegisterPage, string>(this, "RegisterSuccess", (recipient, message) =>
+		WeakReferenceMessenger.Default.Register<string, string>(this, "RegisterSuccess", (recipient, message) =>
 		{
-			MainThread.BeginInvokeOnMainThread(async () =>
-			{
-				await DisplayAlert("Success", message.ToString(), "OK");
-				await Navigation.PopAsync();
-			});
+			HandleRegistrationMessage(message, true);
 		});
 
-		WeakReferenceMessenger.Default.Register<RegisterPage, string>(this, "RegisterError", (recipient, message) =>
-{
-	MainThread.BeginInvokeOnMainThread(async () =>
-	{
-		await DisplayAlert("Error", message.ToString(), "OK");
-		await Navigation.PopAsync();
-	});
-});
+		WeakReferenceMessenger.Default.Register<string, string>(this, "RegisterError", (recipient, message) =>
+		{
+			HandleRegistrationMessage(message, false);
+		});
+
+
 
 	}
+
+
+	private void HandleRegistrationMessage(string message, bool isSuccess)
+	{
+		MainThread.BeginInvokeOnMainThread(async () =>
+		{
+			var title = isSuccess ? "Success" : "Error";
+			await DisplayAlert(title, message, "OK");
+			if (isSuccess)
+			{
+				await Navigation.PopAsync();
+			}
+		});
+	}
+
 
 	protected override void OnDisappearing()
 	{
 		base.OnDisappearing();
-		if (BindingContext is RegisterViewModel viewModel)
-		{
-			viewModel.Cleanup();
-		}
+		// Cleanup to avoid memory leaks
+		WeakReferenceMessenger.Default.UnregisterAll(this);
 	}
 
 }

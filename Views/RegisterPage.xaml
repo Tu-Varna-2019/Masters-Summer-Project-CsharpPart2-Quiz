@@ -5,8 +5,8 @@
     x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.RegisterPage"
     Shell.NavBarIsVisible="False"
 >
-
-    <!-- <ContentPage.BindingContext>
+    <!--
+    <ContentPage.BindingContext>
         <viewModels:RegisterViewModel />
     </ContentPage.BindingContext> -->
 
@@ -34,6 +34,7 @@
             HorizontalOptions="FillAndExpand" />
         <Button Text="Register" Command="{Binding RegisterCommand}"
             HorizontalOptions="FillAndExpand" />
+        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
 
     </VerticalStackLayout>
 
