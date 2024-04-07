@@ -27,9 +27,12 @@
             HorizontalOptions="FillAndExpand" />
         <Entry Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" IsPassword="True"
             HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="ConfirmPassword" Text="{Binding ConfirmPassword, Mode=TwoWay}"
+            IsPassword="True"
+            HorizontalOptions="FillAndExpand" />
         <Button Text="Register" Command="{Binding RegisterCommand}"
             HorizontalOptions="FillAndExpand" />
-        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
+        <Button Text="Login" Clicked="OnGoToLoginClicked" HorizontalOptions="FillAndExpand" />
 
         <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
 

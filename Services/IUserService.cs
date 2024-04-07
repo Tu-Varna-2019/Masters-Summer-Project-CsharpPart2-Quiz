@@ -6,5 +6,7 @@ namespace Masters_Summer_Project_CsharpPart2_Quiz.Services
     {
         public Task<User> RegisterUser(User user);
         public Task<User> LoginUser(string email, string password);
+        public bool ValidateEmail(string email);
+        public bool ValidatePassword(string password);
     }
 }

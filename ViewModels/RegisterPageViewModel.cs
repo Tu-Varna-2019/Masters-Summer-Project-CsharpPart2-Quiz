@@ -9,16 +9,20 @@ using System.Windows.Input;
 
 public class RegisterViewModel : BaseViewModel
 {
-	private bool _isLoading = false;
-	public bool IsLoading
-	{
-		get => _isLoading;
-		set { if (_isLoading != value) _isLoading = value; OnPropertyChanged(nameof(IsLoading)); }
-	}
-
 	public ICommand RegisterCommand { get; private set; }
 	private readonly UserService _userService;
 	private readonly User _user = new User();
+	private string _confirmPassword = string.Empty;
+
+	public string ConfirmPassword
+	{
+		get => _confirmPassword;
+		set
+		{
+			_confirmPassword = value;
+			OnPropertyChanged(nameof(RegisterCommand));
+		}
+	}
 
 	public string Username
 	{
@@ -52,11 +56,11 @@ public class RegisterViewModel : BaseViewModel
 	public RegisterViewModel(UserRepository userRepository)
 	{
 		_userService = new UserService(userRepository);
-		RegisterCommand = new AutoRefreshCommand(ExecuteRegisterCommand, CanExecuteRegister, this);
+		RegisterCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
 	}
 
 
-	private async Task ExecuteRegisterCommand()
+	protected override async Task ExecuteCommand()
 	{
 		IsLoading = true;
 		try
@@ -74,10 +78,14 @@ public class RegisterViewModel : BaseViewModel
 		}
 	}
 
-	private bool CanExecuteRegister()
+	protected override bool CanExecuteCommand()
 	{
+
 		return !IsLoading && !string.IsNullOrWhiteSpace(_user.Username) &&
 			   !string.IsNullOrWhiteSpace(_user.Email) &&
-			   !string.IsNullOrWhiteSpace(_user.Password);
+			   !string.IsNullOrWhiteSpace(_user.Password) &&
+			   _user.Password == _confirmPassword &&
+			   _userService.ValidateEmail(_user.Email) &&
+			   _userService.ValidatePassword(_user.Password);
 	}
 }

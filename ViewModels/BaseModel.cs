@@ -2,10 +2,17 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
+
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
-public class BaseViewModel : INotifyPropertyChanged
+public abstract class BaseViewModel : INotifyPropertyChanged
 {
+    public bool _isLoading = false;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set { if (_isLoading != value) _isLoading = value; OnPropertyChanged(nameof(IsLoading)); }
+    }
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -18,4 +25,6 @@ public class BaseViewModel : INotifyPropertyChanged
         return new Command(async () => await execute());
     }
 
+    protected abstract bool CanExecuteCommand();
+    protected abstract Task ExecuteCommand();
 }

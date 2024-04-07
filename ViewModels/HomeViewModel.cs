@@ -1,17 +1,34 @@
-using Masters_Summer_Project_CsharpPart2_Quiz.Models;
-using System.Windows.Input;
+﻿namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
+
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
+using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
-using Masters_Summer_Project_CsharpPart2_Quiz.Views;
 
+using System.Windows.Input;
 
-namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
-public class LoginViewModel : BaseViewModel
+public class HomeViewModel : BaseViewModel
 {
-    public ICommand LoginCommand { get; private set; }
+    public ICommand RegisterCommand { get; private set; }
     private readonly UserService _userService;
     private readonly User _user = new User();
+    private string _confirmPassword = string.Empty;
+
+    public string ConfirmPassword
+    {
+        get => _confirmPassword;
+        set
+        {
+            _confirmPassword = value;
+            OnPropertyChanged(nameof(RegisterCommand));
+        }
+    }
+
+    public string Username
+    {
+        get => _user.Username;
+        set { _user.Username = value; OnPropertyChanged(nameof(RegisterCommand)); }
+    }
 
     public string Email
     {
@@ -19,7 +36,7 @@ public class LoginViewModel : BaseViewModel
         set
         {
             _user.Email = value;
-            OnPropertyChanged(nameof(LoginCommand));
+            OnPropertyChanged(nameof(RegisterCommand));
         }
     }
 
@@ -29,17 +46,17 @@ public class LoginViewModel : BaseViewModel
         set
         {
             _user.Password = value;
-            OnPropertyChanged(nameof(LoginCommand));
+            OnPropertyChanged(nameof(RegisterCommand));
         }
     }
 
-    public LoginViewModel()
+    public HomeViewModel()
     {
     }
-    public LoginViewModel(UserRepository userRepository)
+    public HomeViewModel(UserRepository userRepository)
     {
         _userService = new UserService(userRepository);
-        LoginCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
+        RegisterCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
     }
 
 
@@ -49,8 +66,7 @@ public class LoginViewModel : BaseViewModel
         try
         {
             await _userService.RegisterUser(_user);
-            AlertMessenger.SendMessage($"User {Email} logged in successfully", true);
-
+            AlertMessenger.SendMessage($"User {Username} registered successfully", true);
         }
         catch (Exception ex)
         {
@@ -64,9 +80,10 @@ public class LoginViewModel : BaseViewModel
 
     protected override bool CanExecuteCommand()
     {
-        return !IsLoading &&
+        return !IsLoading && !string.IsNullOrWhiteSpace(_user.Username) &&
                !string.IsNullOrWhiteSpace(_user.Email) &&
                !string.IsNullOrWhiteSpace(_user.Password) &&
+               _user.Password == _confirmPassword &&
                _userService.ValidateEmail(_user.Email) &&
                _userService.ValidatePassword(_user.Password);
     }

@@ -6,11 +6,6 @@
     Title="Login"
     Shell.NavBarIsVisible="False"
 >
-
-    <ContentPage.BindingContext>
-        <viewModels:LoginViewModel />
-    </ContentPage.BindingContext>
-
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
 
@@ -32,6 +27,8 @@
         <Entry Placeholder="Password" IsPassword="True" HorizontalOptions="FillAndExpand" />
         <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
         <Button Text="Register" Clicked="OnGoToRegisterClicked" HorizontalOptions="FillAndExpand" />
+
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
 
     </VerticalStackLayout>
 

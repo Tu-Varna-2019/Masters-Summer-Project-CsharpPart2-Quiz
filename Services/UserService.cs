@@ -1,6 +1,8 @@
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
 using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz.Services;
 
@@ -18,7 +20,6 @@ public class UserService : IUserService
         // Check if user already exists
         if (_userRepository.GetByEmail(user.Email) == null)
         {
-
             // Hash pasword
             user.Password = MaskData.HashPasword(user.Password);
 
@@ -39,6 +40,22 @@ public class UserService : IUserService
             return user;
         }
         throw new ArgumentException("Invalid credentials");
+    }
+
+    public bool ValidateEmail(string email)
+    /// <summary>
+    /// Validate email address
+    /// </summary>
+    {
+        return new EmailAddressAttribute().IsValid(email);
+    }
+
+    public bool ValidatePassword(string password)
+    /// <summary>
+    /// Validate password with at least 1 uppercase, 1 lowercase, 1 special character and 8 characters long
+    /// </summary>
+    {
+        return Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$");
     }
 
 }

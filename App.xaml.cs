@@ -1,4 +1,5 @@
 ﻿using Masters_Summer_Project_CsharpPart2_Quiz.Views;
+using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
 public partial class App : Application
@@ -8,7 +9,7 @@ public partial class App : Application
 	{
 		InitializeComponent();
 		ServiceProvider = serviceProvider;
-		MainPage = new NavigationPage(new LoginPage());
+		MainPage = new NavigationPage(new LoginPage(ServiceProvider.GetService<LoginViewModel>()));
 
 	}
 

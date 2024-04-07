@@ -19,4 +19,11 @@ public partial class RegisterPage : ContentPage
 		AlertMessenger.UnregisterAlerts(this);
 	}
 
+	private async void OnGoToLoginClicked(object sender, EventArgs e)
+	{
+		var loginViewModel = ((App)Application.Current).ServiceProvider.GetService<LoginViewModel>();
+		var loginPage = new LoginPage(loginViewModel);
+		await Navigation.PushAsync(loginPage);
+	}
+
 }
