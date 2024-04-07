@@ -33,13 +33,12 @@ public class UserService : IUserService
 
     public async Task<User> LoginUser(string email, string password)
     {
-        User user = _userRepository.GetByEmail(email);
 
-        if (_userRepository.ValidateUserCreds(email, MaskData.HashPasword(password)))
+        if (_userRepository.ValidateUserCreds(email, password))
         {
-            return user;
+            return _userRepository.GetByEmail(email);
         }
-        throw new ArgumentException("Invalid credentials");
+        throw new ArgumentException("Invalid credentials! ");
     }
 
     public bool ValidateEmail(string email)

@@ -19,10 +19,10 @@ public partial class HomePage : ContentPage
 		AlertMessenger.UnregisterAlerts(this);
 	}
 
-	private async void OnLogoutClicked(object sender, EventArgs e)
-	{
-		var loginViewModel = ((App)Application.Current).ServiceProvider.GetService<LoginViewModel>();
-		var loginPage = new LoginPage(loginViewModel);
-		await Navigation.PushAsync(loginPage);
-	}
+	// private async void OnLogoutClicked(object sender, EventArgs e)
+	// {
+	// 	var loginViewModel = ((App)Application.Current).ServiceProvider.GetService<LoginViewModel>();
+	// 	var loginPage = new LoginPage(loginViewModel);
+	// 	await Navigation.PushAsync(loginPage);
+	// }
 }

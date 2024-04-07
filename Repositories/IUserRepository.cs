@@ -6,6 +6,7 @@ public interface IUserRepository : IRepository<User>
 {
     public User GetByEmail(string email);
     public bool ValidateUserCreds(string email, string password);
+    public List<User> GetUsers();
 
 }
 

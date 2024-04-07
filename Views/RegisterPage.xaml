@@ -4,11 +4,10 @@
     xmlns:viewModels="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz.ViewModels"
     x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.RegisterPage"
     Shell.NavBarIsVisible="False"
+    Title="Register"
 >
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
-
-        <Label Text="Register" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
 
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
             <Image Source="quiz.png"
@@ -32,7 +31,8 @@
             HorizontalOptions="FillAndExpand" />
         <Button Text="Register" Command="{Binding RegisterCommand}"
             HorizontalOptions="FillAndExpand" />
-        <Button Text="Login" Clicked="OnGoToLoginClicked" HorizontalOptions="FillAndExpand" />
+        <Button Text="Login" Command="{Binding GoToLoginClicked}"
+            HorizontalOptions="FillAndExpand" />
 
         <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
 

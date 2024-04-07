@@ -5,6 +5,8 @@ namespace Masters_Summer_Project_CsharpPart2_Quiz.Views;
 
 public partial class LoginPage : ContentPage
 {
+
+
     public LoginPage(LoginViewModel loginViewModel)
     {
         InitializeComponent();
@@ -17,12 +19,5 @@ public partial class LoginPage : ContentPage
     {
         base.OnDisappearing();
         AlertMessenger.UnregisterAlerts(this);
-    }
-
-    private async void OnGoToRegisterClicked(object sender, EventArgs e)
-    {
-        var registerViewModel = ((App)Application.Current).ServiceProvider.GetService<RegisterViewModel>();
-        var registerPage = new RegisterPage(registerViewModel);
-        await Navigation.PushAsync(registerPage);
     }
 }

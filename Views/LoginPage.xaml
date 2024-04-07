@@ -9,8 +9,6 @@
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
 
-        <Label Text="Login" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
-
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
             <Image Source="quiz.png"
                 SemanticProperties.Description="The dot net bot waving hello!"
@@ -23,10 +21,14 @@
         </HorizontalStackLayout>
 
         <Label Text="{Binding Message}" HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Email" HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Password" IsPassword="True" HorizontalOptions="FillAndExpand" />
-        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand" />
-        <Button Text="Register" Clicked="OnGoToRegisterClicked" HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="Email" Text="{Binding Email, Mode=TwoWay}"
+            HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" IsPassword="True"
+            HorizontalOptions="FillAndExpand" />
+        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"
+        />
+        <Button Text="Register" Command="{Binding GoToRegisterCommand}"
+            HorizontalOptions="FillAndExpand" />
 
         <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
 

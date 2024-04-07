@@ -4,6 +4,7 @@ using Masters_Summer_Project_CsharpPart2_Quiz.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz;
@@ -52,10 +53,17 @@ public static class MauiProgram
 		// For dependency injection
 		builder.Services.AddScoped<UserRepository>();
 
+
+		builder.Services.AddSingleton<INavigationService, NavigationService>();
+
 		// View model dependency injection
 		builder.Services.AddTransient<RegisterViewModel>();
 		builder.Services.AddTransient<LoginViewModel>();
 		builder.Services.AddTransient<HomeViewModel>();
+
+		builder.Services.AddTransient<HomePage>();
+		builder.Services.AddTransient<LoginPage>();
+		builder.Services.AddTransient<RegisterPage>();
 
 		return builder.Build();
 	}

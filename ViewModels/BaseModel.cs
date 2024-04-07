@@ -1,12 +1,14 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
 public abstract class BaseViewModel : INotifyPropertyChanged
 {
+    protected INavigationService _navigationService;
     public bool _isLoading = false;
     public bool IsLoading
     {

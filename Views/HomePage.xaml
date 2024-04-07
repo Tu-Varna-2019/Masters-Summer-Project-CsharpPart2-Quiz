@@ -7,14 +7,8 @@
     Shell.NavBarIsVisible="False"
 >
 
-    <ContentPage.BindingContext>
-        <viewModels:LoginViewModel />
-    </ContentPage.BindingContext>
-
     <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
         HorizontalOptions="FillAndExpand">
-
-        <Label Text="Home" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" />
 
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
             <Image Source="quiz.png"
@@ -26,6 +20,16 @@
             <Label FontSize="22" Text="{Binding Version}" VerticalOptions="End"
                 HorizontalOptions="Center" />
         </HorizontalStackLayout>
+
+        <Label Text="{Binding Message}" HorizontalOptions="FillAndExpand" />
+        <!-- <Entry Placeholder="Email" HorizontalOptions="FillAndExpand" />
+        <Entry Placeholder="Password" IsPassword="True" HorizontalOptions="FillAndExpand" />
+        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"
+        />
+        <Button Text="Register" Command="{Binding GoToRegisterCommand}"
+            HorizontalOptions="FillAndExpand" /> -->
+
+        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
 
     </VerticalStackLayout>
 

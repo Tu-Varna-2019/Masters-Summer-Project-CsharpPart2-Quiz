@@ -10,6 +10,7 @@ namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 public class LoginViewModel : BaseViewModel
 {
     public ICommand LoginCommand { get; private set; }
+    public ICommand GoToRegisterCommand { get; private set; }
     private readonly UserService _userService;
     private readonly User _user = new User();
 
@@ -36,10 +37,13 @@ public class LoginViewModel : BaseViewModel
     public LoginViewModel()
     {
     }
-    public LoginViewModel(UserRepository userRepository)
+    public LoginViewModel(UserRepository userRepository, INavigationService navigationService)
     {
         _userService = new UserService(userRepository);
+        _navigationService = navigationService;
         LoginCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
+        GoToRegisterCommand = new Command(async () => await OnGoToRegisterClicked());
+
     }
 
 
@@ -48,9 +52,9 @@ public class LoginViewModel : BaseViewModel
         IsLoading = true;
         try
         {
-            await _userService.RegisterUser(_user);
+            await _userService.LoginUser(_user.Email, _user.Password);
             AlertMessenger.SendMessage($"User {Email} logged in successfully", true);
-
+            await _navigationService.NavigateToAsync<HomePage>();
         }
         catch (Exception ex)
         {
@@ -62,12 +66,17 @@ public class LoginViewModel : BaseViewModel
         }
     }
 
+    private async Task OnGoToRegisterClicked()
+    {
+        await _navigationService.NavigateToAsync<RegisterPage>();
+    }
+
     protected override bool CanExecuteCommand()
     {
         return !IsLoading &&
                !string.IsNullOrWhiteSpace(_user.Email) &&
-               !string.IsNullOrWhiteSpace(_user.Password) &&
-               _userService.ValidateEmail(_user.Email) &&
-               _userService.ValidatePassword(_user.Password);
+               !string.IsNullOrWhiteSpace(_user.Password);
+        //    _userService.ValidateEmail(_user.Email) &&
+        //    _userService.ValidatePassword(_user.Password);
     }
 }

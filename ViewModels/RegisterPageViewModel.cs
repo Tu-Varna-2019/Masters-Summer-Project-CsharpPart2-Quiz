@@ -4,12 +4,13 @@ using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
 using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
-
+using Masters_Summer_Project_CsharpPart2_Quiz.Views;
 using System.Windows.Input;
 
 public class RegisterViewModel : BaseViewModel
 {
 	public ICommand RegisterCommand { get; private set; }
+	public ICommand GoToLoginClicked { get; private set; }
 	private readonly UserService _userService;
 	private readonly User _user = new User();
 	private string _confirmPassword = string.Empty;
@@ -53,10 +54,18 @@ public class RegisterViewModel : BaseViewModel
 	public RegisterViewModel()
 	{
 	}
-	public RegisterViewModel(UserRepository userRepository)
+	public RegisterViewModel(UserRepository userRepository, INavigationService navigationService)
 	{
+
 		_userService = new UserService(userRepository);
+		_navigationService = navigationService;
 		RegisterCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
+		GoToLoginClicked = new Command(async () => await OnGoToLoginClicked());
+	}
+
+	private async Task OnGoToLoginClicked()
+	{
+		await _navigationService.NavigateToAsync<LoginPage>();
 	}
 
 
@@ -67,10 +76,11 @@ public class RegisterViewModel : BaseViewModel
 		{
 			await _userService.RegisterUser(_user);
 			AlertMessenger.SendMessage($"User {Username} registered successfully", true);
+			await _navigationService.NavigateToAsync<LoginPage>();
 		}
 		catch (Exception ex)
 		{
-			AlertMessenger.SendMessage(ex.Message, false);
+			AlertMessenger.SendMessage(ex.ToString(), false);
 		}
 		finally
 		{
@@ -84,8 +94,8 @@ public class RegisterViewModel : BaseViewModel
 		return !IsLoading && !string.IsNullOrWhiteSpace(_user.Username) &&
 			   !string.IsNullOrWhiteSpace(_user.Email) &&
 			   !string.IsNullOrWhiteSpace(_user.Password) &&
-			   _user.Password == _confirmPassword &&
-			   _userService.ValidateEmail(_user.Email) &&
-			   _userService.ValidatePassword(_user.Password);
+			   _user.Password == _confirmPassword;
+		//    _userService.ValidateEmail(_user.Email) &&
+		//    _userService.ValidatePassword(_user.Password);
 	}
 }
