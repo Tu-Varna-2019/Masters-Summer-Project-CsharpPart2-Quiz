@@ -1,31 +1,14 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
+using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
 
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
-public abstract class BaseViewModel : INotifyPropertyChanged
+public abstract class BaseViewModel : PropertyChange
 {
     protected INavigationService _navigationService;
-    public bool _isLoading = false;
-    public bool IsLoading
-    {
-        get => _isLoading;
-        set { if (_isLoading != value) _isLoading = value; OnPropertyChanged(nameof(IsLoading)); }
-    }
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    protected ICommand InitCommand(Func<Task> execute)
-    {
-        return new Command(async () => await execute());
-    }
+    private readonly IUXAnimation _uxAnimation = new UXAnimation();
+    public IUXAnimation UXAnimation => (UXAnimation)_uxAnimation;
 
     protected abstract bool CanExecuteCommand();
     protected abstract Task ExecuteCommand();

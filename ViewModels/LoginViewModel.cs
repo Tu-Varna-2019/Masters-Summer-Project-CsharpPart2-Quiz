@@ -1,36 +1,24 @@
-using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using System.Windows.Input;
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
-
+using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
-public class LoginViewModel : BaseViewModel
+public partial class LoginViewModel : BaseViewModel
 {
     public ICommand LoginCommand { get; private set; }
     public ICommand GoToRegisterCommand { get; private set; }
     private readonly UserService _userService;
-    private readonly User _user = new User();
-
-    public string Email
+    private UserProperty _userProperty;
+    public UserProperty UserProperty
     {
-        get => _user.Email;
+        get => _userProperty;
         set
         {
-            _user.Email = value;
-            OnPropertyChanged(nameof(LoginCommand));
-        }
-    }
-
-    public string Password
-    {
-        get => _user.Password;
-        set
-        {
-            _user.Password = value;
-            OnPropertyChanged(nameof(LoginCommand));
+            _userProperty = value;
+            OnPropertyChanged(nameof(UserProperty));
         }
     }
 
@@ -42,18 +30,21 @@ public class LoginViewModel : BaseViewModel
         _userService = new UserService(userRepository);
         _navigationService = navigationService;
         LoginCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
+        _userProperty = new UserProperty();
+
+        _userProperty.PropertyChanged += (s, e) => ((AutoRefreshCommand)LoginCommand).RaiseCanExecuteChanged();
         GoToRegisterCommand = new Command(async () => await OnGoToRegisterClicked());
 
     }
 
-
     protected override async Task ExecuteCommand()
     {
-        IsLoading = true;
+        UXAnimation.IsLoading = true;
         try
         {
-            await _userService.LoginUser(_user.Email, _user.Password);
-            AlertMessenger.SendMessage($"User {Email} logged in successfully", true);
+            await Task.Delay(2000);
+            await _userService.LoginUser(UserProperty.Email, UserProperty.Password);
+            AlertMessenger.SendMessage($"User {UserProperty.Email} logged in successfully", true);
             await _navigationService.NavigateToAsync<HomePage>();
         }
         catch (Exception ex)
@@ -62,7 +53,7 @@ public class LoginViewModel : BaseViewModel
         }
         finally
         {
-            IsLoading = false;
+            UXAnimation.IsLoading = false;
         }
     }
 
@@ -73,9 +64,9 @@ public class LoginViewModel : BaseViewModel
 
     protected override bool CanExecuteCommand()
     {
-        return !IsLoading &&
-               !string.IsNullOrWhiteSpace(_user.Email) &&
-               !string.IsNullOrWhiteSpace(_user.Password);
+        return !UXAnimation.IsLoading &&
+               !string.IsNullOrWhiteSpace(UserProperty.Email) &&
+               !string.IsNullOrWhiteSpace(UserProperty.Password);
         //    _userService.ValidateEmail(_user.Email) &&
         //    _userService.ValidatePassword(_user.Password);
     }

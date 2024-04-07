@@ -29,4 +29,9 @@ public class AutoRefreshCommand : ICommand
             await _execute();
         }
     }
+
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
 }

@@ -6,32 +6,42 @@
     Title="Login"
     Shell.NavBarIsVisible="False"
 >
-    <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
-        HorizontalOptions="FillAndExpand">
 
-        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Image Source="quiz.png"
-                SemanticProperties.Description="The dot net bot waving hello!"
-                HeightRequest="64"
-                HorizontalOptions="CenterAndExpand" />
-            <Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}" VerticalOptions="End"
-                HorizontalOptions="Center" />
-            <Label FontSize="22" Text="{Binding Version}" VerticalOptions="End"
-                HorizontalOptions="Center" />
-        </HorizontalStackLayout>
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
+            HorizontalOptions="FillAndExpand">
 
-        <Label Text="{Binding Message}" HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Email" Text="{Binding Email, Mode=TwoWay}"
-            HorizontalOptions="FillAndExpand" />
-        <Entry Placeholder="Password" Text="{Binding Password, Mode=TwoWay}" IsPassword="True"
-            HorizontalOptions="FillAndExpand" />
-        <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"
-        />
-        <Button Text="Register" Command="{Binding GoToRegisterCommand}"
-            HorizontalOptions="FillAndExpand" />
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Image Source="quiz.png"
+                    SemanticProperties.Description="The dot net bot waving hello!"
+                    HeightRequest="64"
+                    HorizontalOptions="CenterAndExpand" />
+                <Label FontSize="22" FontAttributes="Bold" Text="{Binding Title}"
+                    VerticalOptions="End"
+                    HorizontalOptions="Center" />
+                <Label FontSize="22" Text="{Binding Version}" VerticalOptions="End"
+                    HorizontalOptions="Center" />
+            </HorizontalStackLayout>
 
-        <ActivityIndicator IsRunning="True" IsVisible="{Binding IsLoading}" />
+            <Label Text="{Binding Message}" HorizontalOptions="FillAndExpand" />
+            <Entry Placeholder="Email" Text="{Binding UserProperty.Email, Mode=TwoWay}"
+                HorizontalOptions="FillAndExpand" />
+            <Entry Placeholder="Password" Text="{Binding UserProperty.Password, Mode=TwoWay}"
+                IsPassword="True"
+                HorizontalOptions="FillAndExpand" />
+            <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"
+            />
+            <Button Text="Register" Command="{Binding GoToRegisterCommand}"
+                HorizontalOptions="FillAndExpand" />
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+        <ActivityIndicator Grid.Row="0" IsRunning="{Binding UXAnimation.IsLoading}"
+            IsVisible="{Binding UXAnimation.IsLoading}"
+            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+
+    </Grid>
 
 </ContentPage>

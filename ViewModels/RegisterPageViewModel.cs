@@ -1,9 +1,9 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
-using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
+using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
 using System.Windows.Input;
 
@@ -12,45 +12,16 @@ public class RegisterViewModel : BaseViewModel
 	public ICommand RegisterCommand { get; private set; }
 	public ICommand GoToLoginClicked { get; private set; }
 	private readonly UserService _userService;
-	private readonly User _user = new User();
-	private string _confirmPassword = string.Empty;
-
-	public string ConfirmPassword
+	private UserProperty _userProperty;
+	public UserProperty UserProperty
 	{
-		get => _confirmPassword;
+		get => _userProperty;
 		set
 		{
-			_confirmPassword = value;
-			OnPropertyChanged(nameof(RegisterCommand));
+			_userProperty = value;
+			OnPropertyChanged(nameof(UserProperty));
 		}
 	}
-
-	public string Username
-	{
-		get => _user.Username;
-		set { _user.Username = value; OnPropertyChanged(nameof(RegisterCommand)); }
-	}
-
-	public string Email
-	{
-		get => _user.Email;
-		set
-		{
-			_user.Email = value;
-			OnPropertyChanged(nameof(RegisterCommand));
-		}
-	}
-
-	public string Password
-	{
-		get => _user.Password;
-		set
-		{
-			_user.Password = value;
-			OnPropertyChanged(nameof(RegisterCommand));
-		}
-	}
-
 	public RegisterViewModel()
 	{
 	}
@@ -59,7 +30,11 @@ public class RegisterViewModel : BaseViewModel
 
 		_userService = new UserService(userRepository);
 		_navigationService = navigationService;
+
 		RegisterCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
+		_userProperty = new UserProperty();
+
+		_userProperty.PropertyChanged += (s, e) => ((AutoRefreshCommand)RegisterCommand).RaiseCanExecuteChanged();
 		GoToLoginClicked = new Command(async () => await OnGoToLoginClicked());
 	}
 
@@ -71,30 +46,30 @@ public class RegisterViewModel : BaseViewModel
 
 	protected override async Task ExecuteCommand()
 	{
-		IsLoading = true;
+		UXAnimation.IsLoading = true;
 		try
 		{
-			await _userService.RegisterUser(_user);
-			AlertMessenger.SendMessage($"User {Username} registered successfully", true);
+			await Task.Delay(2000);
+			await _userService.RegisterUser(UserProperty.User);
+			AlertMessenger.SendMessage($"User {UserProperty.Username} registered successfully", true);
 			await _navigationService.NavigateToAsync<LoginPage>();
 		}
 		catch (Exception ex)
 		{
-			AlertMessenger.SendMessage(ex.ToString(), false);
+			AlertMessenger.SendMessage(ex.Message, false);
 		}
 		finally
 		{
-			IsLoading = false;
+			UXAnimation.IsLoading = false;
 		}
 	}
 
 	protected override bool CanExecuteCommand()
 	{
-
-		return !IsLoading && !string.IsNullOrWhiteSpace(_user.Username) &&
-			   !string.IsNullOrWhiteSpace(_user.Email) &&
-			   !string.IsNullOrWhiteSpace(_user.Password) &&
-			   _user.Password == _confirmPassword;
+		return !UXAnimation.IsLoading && !string.IsNullOrWhiteSpace(UserProperty.Username) &&
+			   !string.IsNullOrWhiteSpace(UserProperty.Email) &&
+			   !string.IsNullOrWhiteSpace(UserProperty.Password);
+		//_user.Password == _confirmPassword;
 		//    _userService.ValidateEmail(_user.Email) &&
 		//    _userService.ValidatePassword(_user.Password);
 	}
