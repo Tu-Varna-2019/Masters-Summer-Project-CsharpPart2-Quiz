@@ -27,8 +27,6 @@ public class UserService : IUserService
         }
 
         throw new ArgumentException($"User with email {user.Email} already exists");
-
-
     }
 
     public async Task<User> LoginUser(string email, string password)

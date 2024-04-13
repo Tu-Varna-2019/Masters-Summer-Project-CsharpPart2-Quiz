@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:Masters_Summer_Project_CsharpPart2_Quiz.ViewModels"
+    x:Class="Masters_Summer_Project_CsharpPart2_Quiz.Views.ProfilePage"
+    Title="Profile"
+    Shell.NavBarIsVisible="False"
+>
+
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <VerticalStackLayout Spacing="10" Margin="10" VerticalOptions="CenterAndExpand"
+            HorizontalOptions="FillAndExpand">
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Image Source="profile.png"
+                    HeightRequest="64"
+                    HorizontalOptions="CenterAndExpand" />
+            </HorizontalStackLayout>
+
+            <Label Text="{Binding UserProperty.Username}" HorizontalOptions="FillAndExpand" />
+            <Label Text="{Binding UserProperty.Email}" HorizontalOptions="FillAndExpand" />
+
+            <Button Text="Change username" Command="{Binding LoginCommand}"
+                HorizontalOptions="FillAndExpand"
+            />
+            <Button Text="Change email" Command="{Binding LoginCommand}"
+                HorizontalOptions="FillAndExpand"
+            />
+            <Button Text="Change password" Command="{Binding LoginCommand}"
+                HorizontalOptions="FillAndExpand"
+            />
+            <Button Text="Log out" Command="{Binding LoginCommand}"
+                HorizontalOptions="FillAndExpand"
+            />
+
+        </VerticalStackLayout>
+        <ActivityIndicator Grid.Row="0" IsRunning="{Binding UXAnimation.IsLoading}"
+            IsVisible="{Binding UXAnimation.IsLoading}"
+            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" />
+
+    </Grid>
+
+</ContentPage>
