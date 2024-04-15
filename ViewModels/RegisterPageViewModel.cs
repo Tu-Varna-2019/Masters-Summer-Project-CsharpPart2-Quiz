@@ -1,6 +1,7 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
+using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
@@ -11,7 +12,6 @@ public class RegisterViewModel : BaseViewModel
 {
 	public ICommand RegisterCommand { get; private set; }
 	public ICommand GoToLoginClicked { get; private set; }
-	private readonly UserService _userService;
 	private UserProperty _userProperty;
 	public UserProperty UserProperty
 	{
@@ -22,15 +22,11 @@ public class RegisterViewModel : BaseViewModel
 			OnPropertyChanged(nameof(UserProperty));
 		}
 	}
-	public RegisterViewModel()
+	public RegisterViewModel() : base()
 	{
 	}
-	public RegisterViewModel(UserRepository userRepository, INavigationService navigationService)
+	public RegisterViewModel(UserRepository userRepository, INavigationService navigationService, User user) : base(userRepository, navigationService, user)
 	{
-
-		_userService = new UserService(userRepository);
-		_navigationService = navigationService;
-
 		RegisterCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
 		_userProperty = new UserProperty();
 

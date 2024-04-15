@@ -6,6 +6,8 @@ using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
+using Masters_Summer_Project_CsharpPart2_Quiz.Models;
+using CommunityToolkit.Maui;
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz;
 
@@ -51,21 +53,23 @@ public static class MauiProgram
 		}
 
 		// For dependency injection
-		builder.Services.AddScoped<UserRepository>();
-
-
-		builder.Services.AddSingleton<INavigationService, NavigationService>();
+		builder.Services.AddTransient<UserRepository>();
+		builder.Services.AddTransient<INavigationService, NavigationService>();
+		builder.Services.AddSingleton<User>();
 
 		// View model dependency injection
-		builder.Services.AddTransient<RegisterViewModel>();
-		builder.Services.AddTransient<LoginViewModel>();
-		builder.Services.AddTransient<HomeViewModel>();
-		builder.Services.AddTransient<ProfileViewModel>();
+		builder.Services.AddSingleton<RegisterViewModel>();
+		builder.Services.AddSingleton<LoginViewModel>();
+		builder.Services.AddSingleton<HomeViewModel>();
+		builder.Services.AddSingleton<ProfileViewModel>();
+		builder.Services.AddSingleton<CreateQuizViewModel>();
 
-		builder.Services.AddTransient<HomePage>();
-		builder.Services.AddTransient<LoginPage>();
-		builder.Services.AddTransient<RegisterPage>();
-		builder.Services.AddTransient<ProfilePage>();
+		// Pages
+		builder.Services.AddSingleton<HomePage>();
+		builder.Services.AddSingleton<LoginPage>();
+		builder.Services.AddSingleton<RegisterPage>();
+		builder.Services.AddSingleton<ProfilePage>();
+		builder.Services.AddSingleton<CreateQuizPage>();
 
 		return builder.Build();
 	}

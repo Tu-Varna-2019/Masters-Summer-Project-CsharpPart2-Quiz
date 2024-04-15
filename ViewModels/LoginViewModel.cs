@@ -4,13 +4,13 @@ using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
 using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
+using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 public partial class LoginViewModel : BaseViewModel
 {
     public ICommand LoginCommand { get; private set; }
     public ICommand GoToRegisterCommand { get; private set; }
-    private readonly UserService _userService;
     private UserProperty _userProperty;
     public UserProperty UserProperty
     {
@@ -22,19 +22,16 @@ public partial class LoginViewModel : BaseViewModel
         }
     }
 
-    public LoginViewModel()
+    public LoginViewModel() : base()
     {
     }
-    public LoginViewModel(UserRepository userRepository, INavigationService navigationService)
+    public LoginViewModel(UserRepository userRepository, INavigationService navigationService, User user) : base(userRepository, navigationService, user)
     {
-        _userService = new UserService(userRepository);
-        _navigationService = navigationService;
         LoginCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
         _userProperty = new UserProperty();
 
         _userProperty.PropertyChanged += (s, e) => ((AutoRefreshCommand)LoginCommand).RaiseCanExecuteChanged();
         GoToRegisterCommand = new Command(async () => await OnGoToRegisterClicked());
-
     }
 
     protected override async Task ExecuteCommand()
@@ -43,8 +40,11 @@ public partial class LoginViewModel : BaseViewModel
         try
         {
             await Task.Delay(2000);
-            await _userService.LoginUser(UserProperty.Email, UserProperty.Password);
-            AlertMessenger.SendMessage($"User {UserProperty.Email} logged in successfully", true);
+            var loggedUser = await _userService.LoginUser(UserProperty.Email, UserProperty.Password);
+            _user.Username = loggedUser.Username;
+            _user.Email = loggedUser.Email;
+            _user.Password = "";
+            AlertMessenger.SendMessage($"User {_user.Email} logged in successfully", true);
             await _navigationService.NavigateToAsync<HomePage>();
         }
         catch (Exception ex)

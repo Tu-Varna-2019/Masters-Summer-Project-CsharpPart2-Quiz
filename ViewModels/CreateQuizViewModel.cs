@@ -7,19 +7,19 @@ using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
 using System.Windows.Input;
 
-public class HomeViewModel : BaseViewModel
+public class CreateQuizViewModel : BaseViewModel
 {
-    public ICommand ProfileCommand { get; private set; }
+    public ICommand CreateQuizCommand { get; private set; }
 
-    public HomeViewModel() : base()
+    public CreateQuizViewModel() : base()
     {
     }
-    public HomeViewModel(UserRepository userRepository, INavigationService navigationService, User user) : base(userRepository, navigationService, user)
+    public CreateQuizViewModel(UserRepository userRepository, INavigationService navigationService, User user) : base(userRepository, navigationService, user)
     {
-        ProfileCommand = new Command(async () => await OnGoToProfileClicked());
+        CreateQuizCommand = new Command(async () => await ExecuteCommand());
     }
 
-    private async Task OnGoToProfileClicked()
+    private async Task WhenQuizCreates()
     {
         await _navigationService.NavigateToAsync<ProfilePage>();
     }
@@ -31,6 +31,7 @@ public class HomeViewModel : BaseViewModel
         try
         {
 
+            await this.WhenQuizCreates();
         }
         catch (Exception ex)
         {

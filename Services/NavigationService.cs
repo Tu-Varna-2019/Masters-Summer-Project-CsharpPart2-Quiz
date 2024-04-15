@@ -1,4 +1,5 @@
-﻿namespace Masters_Summer_Project_CsharpPart2_Quiz.Services;
+﻿
+namespace Masters_Summer_Project_CsharpPart2_Quiz.Services;
 
 public class NavigationService : INavigationService
 {

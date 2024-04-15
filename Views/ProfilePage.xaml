@@ -23,7 +23,7 @@
             <Label Text="{Binding UserProperty.Username}" HorizontalOptions="FillAndExpand" />
             <Label Text="{Binding UserProperty.Email}" HorizontalOptions="FillAndExpand" />
 
-            <Button Text="Change username" Command="{Binding LoginCommand}"
+            <Button Text="Change username" Command="{Binding ChangeUsernameAction}"
                 HorizontalOptions="FillAndExpand"
             />
             <Button Text="Change email" Command="{Binding LoginCommand}"

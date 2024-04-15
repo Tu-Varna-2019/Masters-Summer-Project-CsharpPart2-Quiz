@@ -1,21 +1,20 @@
 namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels;
 
+using System.Windows.Input;
 using Masters_Summer_Project_CsharpPart2_Quiz.Helpers;
+using Masters_Summer_Project_CsharpPart2_Quiz.Models;
 using Masters_Summer_Project_CsharpPart2_Quiz.Repositories;
 using Masters_Summer_Project_CsharpPart2_Quiz.Services;
 using Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
 using Masters_Summer_Project_CsharpPart2_Quiz.Views;
-using System.Windows.Input;
-using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Forms;
 
-public class ProfileViewModel : BaseViewModel
+public partial class ProfileViewModel : BaseViewModel
 {
-    public ICommand ChangeUsernameCommand { get; private set; }
+    public ICommand ChangeUsernameAction { get; private set; }
     public ICommand ChangeEmailCommand { get; private set; }
     public ICommand ChangePasswordCommand { get; private set; }
     public ICommand LogOutCommand { get; private set; }
-    private readonly UserService _userService;
+
     private UserProperty _userProperty;
     public UserProperty UserProperty
     {
@@ -26,28 +25,27 @@ public class ProfileViewModel : BaseViewModel
             OnPropertyChanged(nameof(UserProperty));
         }
     }
-    public ProfileViewModel()
+    public ProfileViewModel() : base()
     {
     }
-    public ProfileViewModel(UserRepository userRepository, INavigationService navigationService)
+    public ProfileViewModel(UserRepository userRepository, INavigationService navigationService, User user) : base(userRepository, navigationService, user)
     {
-
-        _userService = new UserService(userRepository);
-        _navigationService = navigationService;
-
-        ChangeUsernameCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
+        ChangeUsernameAction = new Command(async () => await WhenUsernameChanges());
         ChangeEmailCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
         ChangePasswordCommand = new AutoRefreshCommand(ExecuteCommand, CanExecuteCommand, this);
 
-        _userProperty = new UserProperty();
-
-        //_userProperty.PropertyChanged += (s, e) => ((AutoRefreshCommand)RegisterCommand).RaiseCanExecuteChanged();
         LogOutCommand = new Command(async () => await OnGoToLoginClicked());
     }
 
     private async Task OnGoToLoginClicked()
     {
         await _navigationService.NavigateToAsync<LoginPage>();
+    }
+
+    private async Task WhenUsernameChanges()
+    {
+
+        // TODO: Add an implementation
     }
 
 
@@ -81,27 +79,5 @@ public class ProfileViewModel : BaseViewModel
         //    _userService.ValidatePassword(_user.Password);
     }
 
-    private async void ShowDialogButton_Clicked(object sender, EventArgs e)
-    {
-        // Create a new dialog
-        var dialog = new Dialog();
-
-        // Add dialog content
-        dialog.Content = new StackLayout
-        {
-            Children =
-                {
-                    new Entry { Placeholder = "Username" },
-                    new Entry { Placeholder = "Password", IsPassword = true }
-                }
-        };
-
-        // Add dialog buttons
-        dialog.Buttons.Add(new ImageButton { Source = "confirm.png" }); // Add a confirm button
-        dialog.Buttons.Add(new ImageButton { Source = "cancel.png" }); // Add a cancel button
-
-        // Show the dialog
-        await dialog.ShowAsync();
-    }
 }
-}
+

@@ -9,8 +9,9 @@ public partial class App : Application
 	{
 		InitializeComponent();
 		ServiceProvider = serviceProvider;
-		//MainPage = new NavigationPage(new LoginPage(ServiceProvider.GetService<LoginViewModel>()));
-		MainPage = new NavigationPage(new HomePage(ServiceProvider.GetService<HomeViewModel>()));
+
+		MainPage = new NavigationPage(new LoginPage(ServiceProvider.GetService<LoginViewModel>()));
+		//MainPage = new NavigationPage(new HomePage(ServiceProvider.GetService<HomeViewModel>()));
 	}
 
 	protected override async void OnStart()

@@ -5,10 +5,9 @@ namespace Masters_Summer_Project_CsharpPart2_Quiz.ViewModels.Presentations;
 public class UserProperty : PropertyChange
 {
 	public readonly User _user = new User();
-	public User User => _user;
+	public User User { get => _user; set { if (User != value) User = value; } }
 
 	private string _confirmPassword = string.Empty;
-
 
 	public string ConfirmPassword
 	{
