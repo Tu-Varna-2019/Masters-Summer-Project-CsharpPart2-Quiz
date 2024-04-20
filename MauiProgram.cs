@@ -63,13 +63,17 @@ public static class MauiProgram
 		builder.Services.AddSingleton<HomeViewModel>();
 		builder.Services.AddSingleton<ProfileViewModel>();
 		builder.Services.AddSingleton<CreateQuizViewModel>();
+		builder.Services.AddSingleton<EditQuizViewModel>();
+		builder.Services.AddSingleton<DeleteQuizViewModel>();
 
 		// Pages
 		builder.Services.AddSingleton<HomePage>();
 		builder.Services.AddSingleton<LoginPage>();
 		builder.Services.AddSingleton<RegisterPage>();
 		builder.Services.AddSingleton<ProfilePage>();
-		builder.Services.AddSingleton<CreateQuizPage>();
+		// builder.Services.AddSingleton<CreateQuizPage>();
+		// builder.Services.AddSingleton<EditQuizPage>();
+		// builder.Services.AddSingleton<DeleteQuizPage>();
 
 		return builder.Build();
 	}

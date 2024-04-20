@@ -36,7 +36,7 @@ public class UserService : IUserService
         {
             return _userRepository.GetByEmail(email);
         }
-        throw new ArgumentException("Invalid credentials! ");
+        throw new ArgumentException("Invalid credentials!");
     }
 
     public bool ValidateEmail(string email)
